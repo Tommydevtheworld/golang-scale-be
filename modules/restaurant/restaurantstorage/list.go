@@ -6,7 +6,8 @@ import (
 	"simple_golang/modules/restaurant/restaurantmodel"
 )
 
-func (s *sqlStore) ListDataByCondition(ctx context.Context,
+func (s *sqlStore) ListDataByCondition(
+	ctx context.Context,
 	conditions map[string]interface{},
 	filter *restaurantmodel.Filter,
 	paging *common.Paging,
