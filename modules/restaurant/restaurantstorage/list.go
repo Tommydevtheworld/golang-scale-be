@@ -31,7 +31,7 @@ func (s *sqlStore) ListDataByCondition(
 	}
 
 	if err := db.Count(&paging.Total).Error; err != nil {
-		return nil, err
+		return nil, common.ErrDB(err)
 	}
 
 	if err := db.
@@ -40,7 +40,7 @@ func (s *sqlStore) ListDataByCondition(
 		Order("id desc").
 		Find(&result).
 		Error; err != nil {
-		return nil, err
+		return nil, common.ErrDB(err)
 	}
 
 	return result, nil
