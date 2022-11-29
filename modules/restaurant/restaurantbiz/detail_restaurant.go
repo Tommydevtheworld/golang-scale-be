@@ -10,7 +10,7 @@ type DetailRestaurantStore interface {
 	DetailData(
 		ctx context.Context,
 		id string,
-	) (restaurantmodel.Restaurant, error)
+	) (*restaurantmodel.Restaurant, error)
 }
 
 type detailRestaurantBiz struct {
@@ -35,5 +35,5 @@ func (biz *detailRestaurantBiz) DetailRestaurant(
 		return nil, errors.New("data deleted")
 	}
 
-	return &result, err
+	return result, err
 }
