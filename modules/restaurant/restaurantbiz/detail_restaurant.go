@@ -2,6 +2,7 @@ package restaurantbiz
 
 import (
 	"context"
+	"errors"
 	"simple_golang/modules/restaurant/restaurantmodel"
 )
 
@@ -23,7 +24,16 @@ func NewDetailRestaurantBiz(store DetailRestaurantStore) *detailRestaurantBiz {
 func (biz *detailRestaurantBiz) DetailRestaurant(
 	ctx context.Context,
 	id string,
-) (restaurantmodel.Restaurant, error) {
+) (*restaurantmodel.Restaurant, error) {
 	result, err := biz.store.DetailData(ctx, id)
-	return result, err
+
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Status == 0 {
+		return nil, errors.New("data deleted")
+	}
+
+	return &result, err
 }

@@ -4,6 +4,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
+	"gorm.io/gorm/logger"
 	"log"
 	"net/http"
 	"os"
@@ -12,21 +13,10 @@ import (
 	"simple_golang/modules/restaurant/restauranttransport/ginrestaurant"
 )
 
-//type Note struct {
-//	Id      uint   `json:"id,omitempty" gorm:"column:id"`
-//	Title   string `json:"title" gorm:"column:title"`
-//	Content string `json:"content" gorm:"column:content"`
-//}
-
-//func (Note) TableName() string {
-//	return "notes"
-//}
-
 func main() {
 
 	dsn := os.Getenv("DBConnectionStr")
-	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
-
+	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{Logger: logger.Default.LogMode(logger.Info)})
 	if err != nil {
 		log.Fatalln(err)
 	}
@@ -57,6 +47,7 @@ func runService(db *gorm.DB) error {
 		restaurants.GET("", ginrestaurant.ListRestaurant(appCtx))
 		restaurants.GET("/:id", ginrestaurant.DetailRestaurant(appCtx))
 		restaurants.PATCH("/:id", ginrestaurant.UpdateRestaurant(appCtx))
+		restaurants.DELETE("/:id", ginrestaurant.DeleteRestaurant(appCtx))
 	}
 
 	return r.Run(":8080")

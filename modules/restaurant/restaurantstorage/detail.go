@@ -15,6 +15,7 @@ func (s *sqlStore) DetailData(
 	if err := db.
 		Table(restaurantmodel.Restaurant{}.TableName()).
 		Where("id = ?", id).
+		//Where("status IN (1)").
 		Take(&result).
 		Error; err != nil {
 		return result, err
@@ -26,7 +27,9 @@ func (s *sqlStore) FindDataByCondition(ctx context.Context, conditions map[strin
 	var restaurant = restaurantmodel.Restaurant{}
 
 	db := s.db
-	if err := db.Model(restaurantmodel.Restaurant{}).Where(conditions).First(&restaurant).Error; err != nil {
+	if err := db.Model(restaurantmodel.Restaurant{}).Where(conditions).
+		Where("status in (1)").
+		First(&restaurant).Error; err != nil {
 		return nil, err
 	}
 	return &restaurant, nil

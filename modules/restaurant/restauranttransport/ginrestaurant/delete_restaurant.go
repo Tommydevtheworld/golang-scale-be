@@ -6,12 +6,11 @@ import (
 	"simple_golang/common"
 	"simple_golang/component"
 	"simple_golang/modules/restaurant/restaurantbiz"
-	"simple_golang/modules/restaurant/restaurantmodel"
 	"simple_golang/modules/restaurant/restaurantstorage"
 	"strconv"
 )
 
-func UpdateRestaurant(appCtx component.AppContext) gin.HandlerFunc {
+func DeleteRestaurant(appCtx component.AppContext) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		id, err := strconv.Atoi(c.Param("id"))
 
@@ -21,14 +20,6 @@ func UpdateRestaurant(appCtx component.AppContext) gin.HandlerFunc {
 			})
 
 			return
-		}
-
-		var data restaurantmodel.RestaurantUpdate
-
-		if err := c.ShouldBind(&data); err != nil {
-			c.JSON(401, gin.H{
-				"err": err.Error(),
-			})
 		}
 
 		store := restaurantstorage.NewSqlStore(appCtx.GetMainDBConnection())
