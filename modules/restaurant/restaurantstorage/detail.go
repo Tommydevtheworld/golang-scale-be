@@ -21,3 +21,13 @@ func (s *sqlStore) DetailData(
 	}
 	return result, nil
 }
+
+func (s *sqlStore) FindDataByCondition(ctx context.Context, conditions map[string]interface{}, moreKeys ...string) (*restaurantmodel.Restaurant, error) {
+	var restaurant = restaurantmodel.Restaurant{}
+
+	db := s.db
+	if err := db.Model(restaurantmodel.Restaurant{}).Where(conditions).First(&restaurant).Error; err != nil {
+		return nil, err
+	}
+	return &restaurant, nil
+}
