@@ -17,9 +17,7 @@ func DetailRestaurant(appCtx component.AppContext) gin.HandlerFunc {
 		biz := restaurantbiz.NewDetailRestaurantBiz(store)
 		result, err := biz.DetailRestaurant(c.Request.Context(), id)
 		if err != nil {
-			c.JSON(401, gin.H{
-				"error": err.Error(),
-			})
+			c.JSON(http.StatusBadRequest, err)
 			return
 		}
 		c.JSON(http.StatusOK, common.SimpleSuccessResponse(result))
