@@ -9,6 +9,7 @@ import (
 	"net/http"
 	"os"
 	"simple_golang/component"
+	"simple_golang/middleware"
 	"simple_golang/modules/restaurant/restaurantmodel"
 	"simple_golang/modules/restaurant/restauranttransport/ginrestaurant"
 )
@@ -41,6 +42,7 @@ func runService(db *gorm.DB) error {
 	})
 
 	appCtx := component.NewAppContext(db)
+	r.Use(middleware.Recover())
 	restaurants := r.Group("/restaurants")
 	{
 		restaurants.POST("", ginrestaurant.CreateRestaurant(appCtx))

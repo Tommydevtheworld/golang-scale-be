@@ -16,7 +16,7 @@ func (s *sqlStore) DetailData(
 	db := s.db
 	if err := db.
 		Table(restaurantmodel.Restaurant{}.TableName()).
-		Where("id =c ?", id).
+		Where("id = ?", id).
 		//Where("status IN (1)").
 		Take(&result).
 		Error; err != nil {

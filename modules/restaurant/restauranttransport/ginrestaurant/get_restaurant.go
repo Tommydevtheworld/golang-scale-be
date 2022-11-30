@@ -18,6 +18,7 @@ func DetailRestaurant(appCtx component.AppContext) gin.HandlerFunc {
 		result, err := biz.DetailRestaurant(c.Request.Context(), id)
 		if err != nil {
 			c.JSON(http.StatusBadRequest, err)
+			//panic(err)
 			return
 		}
 		c.JSON(http.StatusOK, common.SimpleSuccessResponse(result))
